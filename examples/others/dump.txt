@@ -1,0 +1,14 @@
+(dp1
+S'age'
+p2
+S'22'
+p3
+sS'score'
+p4
+S'99'
+p5
+sS'name'
+p6
+S'bob'
+p7
+s.
