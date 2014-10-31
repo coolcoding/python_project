@@ -159,8 +159,9 @@ def delete(table,**kw):
     sql = 'delete from `%s` where %s' % (table,where)
     return _update(sql,*args)
 
-@with_connection
-def select(sql,first,*args):
+
+
+def _select(sql,first,*args):
 
     global _db_ctx
     cursor = None
@@ -172,7 +173,6 @@ def select(sql,first,*args):
         names =[x[0] for x in cursor.description] 
         if first:
             values = cursor.fetchone()
-            print values
             if not values:
                 return None
             return Dict(names,values)
@@ -182,7 +182,29 @@ def select(sql,first,*args):
             cursor.close()
 
     
+@with_connection
+def select_one(sql,*args):
+    '''
+    select_one('select * from user where id = ?','1')
+    '''
+    return _select(sql,True,*args)
 
+
+@with_connection    
+def select_int(sql,*args):
+    
+    d = _select(sql,True,*args)
+    if len(d) != 1:
+        raise MuiltiColumnsError('Expect only one column.')
+    return d.values()[0]
+
+
+@with_connection
+def select(sql,*args):
+    '''
+    select('select * from user where id = ?','1')
+    '''
+    return _select(sql,False,*args)
 
 
 if __name__ == '__main__':
@@ -194,4 +216,5 @@ if __name__ == '__main__':
 #    print insert('user',id='2',name='lo')
 #    print update('update user set name = ? where id = ?','good','1')
 #    print delete('user',id='1')
-    print select('select * from user',False)
+    print select_one('select * from user where id = ?','1')
+    print select('select * from user where id = ?','1')
