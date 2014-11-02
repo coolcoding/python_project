@@ -3,7 +3,7 @@
 
 __author__ = 'coolcoding'
 
-import logging,threading,functools
+import time, uuid, functools, threading, logging
 
 class Dict(dict):
 
@@ -205,6 +205,27 @@ def select(sql,*args):
     select('select * from user where id = ?','1')
     '''
     return _select(sql,False,*args)
+
+def next_id(t=None):
+    '''
+    Return next id as 50-char string.
+
+    Args:
+        t: unix timestamp, default to None and using time.time().
+    '''
+    if t is None:
+        t = time.time()
+    return '%015d%s000' % (int(t * 1000), uuid.uuid4().hex)
+
+
+def _profiling(start, sql=''):
+    t = time.time() - start
+    if t > 0.1:
+        logging.warning('[PROFILING] [DB] %s: %s' % (t, sql))
+    else:
+        logging.info('[PROFILING] [DB] %s: %s' % (t, sql))
+
+
 
 
 if __name__ == '__main__':
