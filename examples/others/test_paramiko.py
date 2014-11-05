@@ -14,16 +14,16 @@ def ssh2(ip,username,passwd,cmd,port=22):
             #屏幕输出  
             for o in out:  
                 print o,  
-        print '%s\tOK\n'%(ip)  
+        print '%s\tOK\n' % (ip)  
         ssh.close()  
     except :  
-        print '%s\tError\n'%(ip)  
+        print '%s\tError\n' % (ip)  
 if __name__=='__main__':  
-    cmd = ['cal','echo hello!']#你要执行的命令列表  
+    cmd = ['cal','df -h']#你要执行的命令列表  
     username = "root"  #用户名  
     passwd = "toor"    #密码  
     threads = []   #多线程  
     print "Begin......" 
-    ip = '192.168.56.200'
+    ip = '192.168.56.5'
     a=threading.Thread(target=ssh2,args=(ip,username,passwd,cmd))   
     a.start() 
