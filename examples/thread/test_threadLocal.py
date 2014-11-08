@@ -1,8 +1,9 @@
 #!/usr/bin/env python
+#-*- coding: utf-8 -*-
 
 import threading
 
-
+#全局变量
 local_school = threading.local()
 
 def process_student():
